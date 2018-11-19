@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<form action="{% url 'pages:save_post' b_q.b_type %}" method="get">
+{% csrf_token %}
+제목 : <input type="text" name="title"><br>
+{{ form|safe }}
+
+<input type="submit" value="확인">
+    </form>
+{{b_q}}
+{{b_q.b_type}}
+{{b_q.b_type_ko}}
+</body>
+</html>

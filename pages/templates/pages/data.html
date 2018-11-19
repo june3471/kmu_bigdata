@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+                <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+
+</head>
+<body>
+
+
+{% load custom_tag %}
+
+        <div class="navbar-wrapper">
+      <div class="container">
+
+
+
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container"></div>
+    <div class = "container-fluid" >
+        <div class="navbar-header">
+                <li class="active"><a href="{% url 'pages:index' %}" class="navbar-brand">HOME(연구실 이름) </a></li>
+
+        </div>
+<ul class="nav navbar-nav navbar-right">
+    {% for menu in board_menu %}
+    <li><a href="{% url 'pages:menu' menu.b_type %}" class="navbar-brand">{{menu.b_type_ko}}&nbsp; &nbsp;</a></li>
+
+    {% endfor %}
+    </ul>
+
+        <form  action="."  class="navbar-form navbar-right" method="get">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="search" placeholder="Search..." value="{{search_result}}">
+            <input type="submit" name="query" value="검색" class="btn btn-default">
+          </form>
+</div>
+    </nav>
+      </div>
+    </div>
+
+
+
+
+
+
+<div class="container-fluid">
+<div class="row">
+
+<nav class="col-md-2 toc" style="background-color: rgb(245,245,245);">
+
+    <ul class="nav nav-sidebar">
+        {% for i in all_file %}
+        <li>
+            <a href="{% url 'pages:detail' 'data' i.id %}">{{i.f_title}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+
+        <div class="col-md-9 article">
+
+        <h1 class="page-header">데이터셋 소개 글</h1>
+        <p>데이터셋 페이지 간략 정보</p>
+
+
+
+{% for file in all_file %}
+                            <div class="row">
+
+                        <h2 class="blog-post-title">{{file.f_title}}</h2>
+                        <p class="blog-post-meta">{{file.f_date}} </p>
+                        <hr>
+                        {{file.f_contents|safe}}
+                        <a class="btn btn-default"href="{{file.f_file.url}}">데이터 다운로드</a>
+                                {% if real_all_board|in_category:file.id  %}
+                        <h3 class="blog-post-meta">이 데이터를 사용한 분석 글</h3>
+
+                        {% for board in real_all_board|in_category:file.id %}
+                        <div class="col-xs-6 col-lg-4" >
+                            <h4>{{board.b_title}}</h4>
+                            <a href=" {% url 'pages:detail' board.b_type.b_type board.id %}" class="btn btn-default">View details »</a>
+                        </div>
+
+                            {% endfor %}
+
+                                {% endif %}
+</div>
+
+{% endfor %}
+
+
+
+
+            </div>
+
+
+</div>
+</div>
+
+
+</body>
+</html>

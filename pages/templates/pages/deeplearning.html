@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+                <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+
+</head>
+<body>
+
+        <div class="navbar-wrapper">
+      <div class="container">
+
+
+
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container"></div>
+    <div class = "container-fluid" >
+        <div class="navbar-header">
+                <li class="active"><a href="{% url 'pages:index' %}" class="navbar-brand">HOME(연구실 이름) </a></li>
+
+        </div>
+<ul class="nav navbar-nav navbar-right">
+    {% for menu in board_menu %}
+    <li><a href="{% url 'pages:menu' menu.b_type %}" class="navbar-brand">{{menu.b_type_ko}}&nbsp; &nbsp;</a></li>
+
+    {% endfor %}
+    </ul>
+
+        <form  action="."  class="navbar-form navbar-right" method="get">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="search" placeholder="Search..." value="{{search_result}}">
+            <input type="submit" name="query" value="검색" class="btn btn-default">
+          </form>
+</div>
+    </nav>
+      </div>
+    </div>
+
+<div class="container-fluid">
+<div class="row">
+
+<nav class="col-md-2 toc" style="background-color: rgb(245,245,245);">
+
+    <ul class="nav nav-sidebar">
+        {% for i in all_board %}
+        <li>
+            <a href="{% url 'pages:detail' 'deeplearning' i.id %}">{{i.b_title}}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+
+        <div class="col-md-9 article">
+
+        <h1 class="page-header">딥러닝 소개 글</h1>
+        <p>딥러닝 페이지 간략 정보</p>
+
+                <div class="row">
+{% for board in all_board %}
+                    <div class="blog-post">
+                        <h2 class="blog-post-title">{{board.b_title}}</h2>
+                        <p class="blog-post-meta">{{board.b_date}} </p>
+                        <hr>
+                        {{board.b_contents|safe}}
+
+                    </div>
+
+
+
+{% endfor %}
+</div>
+
+            </div>
+
+
+</div>
+</div>
+
+</body>
+</html>
